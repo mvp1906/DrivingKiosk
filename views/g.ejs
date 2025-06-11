@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('layouts/header'); -%>
+    <body>
+        <!-- Navigation-->
+        <%- include('layouts/navbar'); -%>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>G Test</h1>
+                            <h2 class="subheading">Get rid of G License Asap!!</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="my-5">
+                            <!-- * * * * * * * * * * * * * * *-->
+                            <!-- * * SB Forms Contact Form * *-->
+                            <!-- * * * * * * * * * * * * * * *-->
+                            <!-- This form is pre-integrated with SB Forms.-->
+                            <!-- To make this form functional, sign up at-->
+                            <!-- https://startbootstrap.com/solution/contact-forms-->
+                            <!-- to get an API token!-->
+                            <% if(typeof fetchInfo!=="undefined" && fetchInfo!=null){ %>
+                            <form id="contactForm" method="post" action="/g2/update">
+                                <div class="form-floating"> 
+
+                                    <input class="form-control" id="fname" name="firstname" type="text" value="<%= fetchInfo.firstname %>" placeholder="Enter your First name..." data-sb-validations="required" disabled/>
+                                    <label for="fname">First Name</label>
+                                    <div class="invalid-feedback" data-sb-feedback="fname:required">First name is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="lname" name="lastname" type="text" value="<%= fetchInfo.lastname=== 'default' ? '': fetchInfo.lastname %>" placeholder="Enter your Last name..." data-sb-validations="required" disabled="<%= fetchInfo.lastname === 'default' ? false : true %>"" />
+                                    <label for="lname">Last Name</label>
+                                    <div class="invalid-feedback" data-sb-feedback="lname:required">Last name is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="lnumber" name="licenseNo" type="text" value="<%= fetchInfo.licenseNo %>" pattern="[a-zA-Z0-9]{8}" minlength="8" maxlength="8" placeholder="Enter your License number..." data-sb-validations="required" readonly />
+                                    <label for="lnumber">License Number</label>
+                                    <div class="invalid-feedback" data-sb-feedback="lnumber:required">License number is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="age" type="number" name="age" placeholder="Enter your Age..." value="<%= fetchInfo.age %>"  data-sb-validations="required" disabled />
+                                    <label for="age">Age</label>
+                                    <div class="invalid-feedback" data-sb-feedback="age:required">Age is required.</div>
+                                </div>
+                                <br />
+                                <% if(fetchInfo != null && fetchInfo.car_details != null) {%>
+                                <h1>Car Details</h1>
+                                <div class="form-floating">
+                                    <input class="form-control" id="make" type="text" name="make" placeholder="Enter Car's Brand..." value="<%= fetchInfo.car_details.make %>" data-sb-validations="required" />
+                                    <label for="make">Make</label>
+                                    <div class="invalid-feedback" data-sb-feedback="make:required">Brand is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="model" type="text" name="model" placeholder="Enter Car's Model..." value="<%= fetchInfo.car_details.model %>" data-sb-validations="required" />
+                                    <label for="model">Model</label>
+                                    <div class="invalid-feedback" data-sb-feedback="model:required">Model is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="year" type="number" name="year" placeholder="Enter Car's model year..." value="<%= fetchInfo.car_details.year %>" data-sb-validations="required" />
+                                    <label for="year">Year</label>
+                                    <div class="invalid-feedback" data-sb-feedback="year:required">Year is required.</div>
+                                </div>
+                                <div class="form-floating">
+                                    <input class="form-control" id="pnumber" type="text" name="platno" pattern="[a-zA-Z0-9]" placeholder="Enter Plate number..." value="<%= fetchInfo.car_details.platno %>" data-sb-validations="required" />
+                                    <label for="pnumber">Plate Number</label>
+                                    <div class="invalid-feedback" data-sb-feedback="pnumber:required">Plate Number is required.</div>
+                                </div>
+                                <% } %>
+                                <br />
+                                <!-- Submit success message-->
+                                <!---->
+                                <!-- This is what your users will see when the form-->
+                                <!-- has successfully submitted-->
+                                <div class="d-none" id="submitSuccessMessage">
+                                    <div class="text-center mb-3">
+                                        <div class="fw-bolder">Form submission successful!</div>
+                                        To activate this form, sign up at
+                                        <br />
+                                        <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                    </div>
+                                </div>
+                                <!-- Submit error message-->
+                                <!---->
+                                <!-- This is what your users will see when there is-->
+                                <!-- an error submitting the form-->
+                                <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Please enter correct information!</div></div>
+                                <!-- Submit Button-->
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Submit</button>
+                            </form>
+                            <% } else if (typeof fetchInfo!=="undefined"){ %>
+                                <h2 class="not-found">User not found. Please click on the button below....</h2>
+                                <button class="btn btn-primary text-uppercase" id="userButton" type="submit"><a href="/g2"> New User </a></button>
+
+                            <% } %>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- Footer-->
+        <%- include('layouts/footer'); -%>
+        <!-- Scripts -->
+        <%- include('layouts/scripts'); -%>
+    </body>
+</html>

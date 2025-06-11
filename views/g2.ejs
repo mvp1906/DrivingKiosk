@@ -1,0 +1,146 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <%- include('layouts/header'); -%>
+
+        <body>
+            <!-- Navigation-->
+            <%- include('layouts/navbar'); -%>
+                <!-- Page Header-->
+                <header class="masthead" style="background-image: url('assets/img/about-bg.jpg')">
+                    <div class="container position-relative px-4 px-lg-5">
+                        <div class="row gx-4 gx-lg-5 justify-content-center">
+                            <div class="col-md-10 col-lg-8 col-xl-7">
+                                <div class="page-heading">
+                                    <h1>G2 Test</h1>
+                                    <span class="subheading">Book Now</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <!-- Main Content-->
+                <main class="mb-4">
+                    <div class="container px-4 px-lg-5">
+                        <div class="row gx-4 gx-lg-5 justify-content-center">
+                            <div class="col-md-10 col-lg-8 col-xl-7">
+                                <form id="contactForm" method="post" action="/g2/update">
+                                    <div class="form-floating">
+                                        <section>
+                                            <h2>Personal Details</h2>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="firstname" type="text" name="firstname" placeholder="Enter your name..." data-sb-validations="required" required />
+                                              <label for="firstname">First Name</label>
+                                              <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="lastname" type="text" name="lastname" placeholder="Enter your name..." data-sb-validations="required" required />
+                                              <label for="lastname">Last Name</label>
+                                              <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="LicenseNo" type="text" name="LicenseNo" placeholder="Enter your license number..." data-sb-validations="required" required />
+                                              <label for="LicenseNo">License Number</label>
+                                              <div class="invalid-feedback" data-sb-feedback="LicenseNo:required">A License Number is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="Age" type="number" name="Age" placeholder="Enter your Age..." data-sb-validations="required" required />
+                                              <label for="Age">Age</label>
+                                              <div class="invalid-feedback" data-sb-feedback="Age:required">Age is required.</div>
+                                            </div>
+                                          </section>
+                                          <br>
+                                          <section>
+                                            <h2>Car Details</h2>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="make" type="text" name="make" placeholder="Enter your make..." data-sb-validations="required" required />
+                                              <label for="make">Make</label>
+                                              <div class="invalid-feedback" data-sb-feedback="make:required">Make is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="model" type="text" name="model" placeholder="Enter your car model..." data-sb-validations="required" required />
+                                              <label for="model">Model</label>
+                                              <div class="invalid-feedback" data-sb-feedback="model:required">Model is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="year" type="number" name="year" placeholder="Enter your car year..." data-sb-validations="required" required />
+                                              <label for="year">Year</label>
+                                              <div class="invalid-feedback" data-sb-feedback="year:required">Year is required.</div>
+                                            </div>
+                                            <div class="form-floating">
+                                              <input class="form-control" id="platno" type="text" name="platno" placeholder="Enter your car plate number..." data-sb-validations="required" required />
+                                              <label for="platno">Plate Number</label>
+                                              <div class="invalid-feedback" data-sb-feedback="platno:required">Plate Number is required.</div>
+                                            </div>
+                                          </section>
+                                        <br />
+
+                                        <section>
+                                            <br />
+                                            <button class="btn btn-primary text-uppercase " id="submitButton"
+                                                type="submit">Submit</button>
+                                        </section>
+                                    </div>
+                                </form>
+                                <section>
+                                    <form id="appointmentForm" method="post" action="/g2_test/book">
+                                        <div class="mb-3">
+                                        <label for="date" class="form-label">Select Date</label>
+                                        <input type="date" id="date" name="date" class="form-control" value="<%= selectedDate %>" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                        <label for="time" class="form-label">Select Time Slot</label>
+                                        <select id="time" name="time" class="form-select" required>
+                                            <% allSlots.forEach(slot => { %>
+                                            <option value="<%= slot.time %>" <% if (!slot.isTimeSlotAvailable) { %> disabled <% } %>><%= slot.time %> <% if (!slot.isTimeSlotAvailable) { %> (Booked) <% } %></option>
+                                            <% }) %>
+                                        </select>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary">Book Appointment</button>
+                                    </form>       
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <script>
+                    document.getElementById('date').addEventListener('change', function() {
+                    const selectedDate = this.value;
+                    window.location.href = `/g2?date=${selectedDate}`;
+                    });
+                </script>
+                <!-- Footer-->
+                <%- include('layouts/footer'); -%>
+                    <%- include('layouts/scripts'); -%>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const dateInput = document.getElementById('date');
+                            const today = new Date();
+                            const tomorrow = new Date(today);
+                            tomorrow.setDate(tomorrow.getDate() + 1);
+                            const yyyy = tomorrow.getFullYear();
+                            const mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // January is 0
+                            const dd = String(tomorrow.getDate()).padStart(2, '0');
+                            dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+                            const form = document.getElementById('contactForm');
+                            form.addEventListener('submit', (e) => {
+                                const fields = document.querySelectorAll('.form-control');
+                                let isValid = true;
+                                fields.forEach((field) => {
+                                    if (field.value === '') {
+                                        isValid = false;
+                                    }
+                                });
+                                if (!isValid) {
+                                    e.preventDefault();
+                                    alert('Please fill in all fields before submitting.');
+                                }
+                            });
+                        });
+                    </script>
+        </body>
+
+    </html>

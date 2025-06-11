@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('layouts/header'); -%>
+
+<body>
+    <!-- Navigation -->
+    <%- include('layouts/navbar'); -%>
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-color: gray;">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1>Appointment</h1>
+                        <span class="subheading">DriveTest Booking Kiosk</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <!-- Appointment Form -->
+                <h1>Appointment Page</h1>
+                <p>Only accessible by Admin users.</p>
+                
+                <!-- Form for creating appointments -->
+                <form action="/appointments/create" method="POST">
+                    <div class="mb-3">
+                        <label for="date" class="form-label">Select Date</label>
+                        <input type="date" id="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Select Time Slots</label>
+                        <% for (let i = 9; i <= 18; i++) { %>
+
+                            <% const timeSlot1 = `${i}:00`; %>
+                            <% const timeSlot2 = `${i}:30`; %>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="times" value="<%= timeSlot1 %>" id="time<%= i %>">
+                                <label class="form-check-label" for="time<%= i %>"><%= timeSlot1 %> AM</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="times" value="<%= timeSlot2 %>" id="time<%= i %>30">
+                                <label class="form-check-label" for="time<%= i %>30"><%= timeSlot2 %> AM</label>
+                            </div>
+                        <% } %>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Appointment Slots</button>
+                </form>
+                <div>
+                    <% if (errors && errors.length > 0) { %>
+                        <div class="alert alert-danger">
+                            <% errors.forEach(function(error) { %>
+                                <p><%= error %></p>
+                            <% }); %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dateInput = document.getElementById('date');
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const yyyy = tomorrow.getFullYear();
+            const mm = String(tomorrow.getMonth() + 1).padStart(2, '0'); // January is 0
+            const dd = String(tomorrow.getDate()).padStart(2, '0');
+            dateInput.min = `${yyyy}-${mm}-${dd}`;
+        });
+    </script>
+
+    <!-- Footer -->
+    <%- include('layouts/footer'); -%>
+    <%- include('layouts/scripts'); -%>
+</body>
+</html>
